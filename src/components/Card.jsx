@@ -28,7 +28,7 @@ const CardContent = styled.p`
 const Card = () => {
   return (
     <CardWrapper>
-      <CardTitle>Card Title</CardTitle>
+      <CardTitle>Cards Title</CardTitle>
       <CardImage src="https://fakeimg.pl/350x200/?text=Hello" alt="Card Image" />
       <CardContent>
         This is the content of the card. It can contain any information you want to display.
