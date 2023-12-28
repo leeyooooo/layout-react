@@ -1,23 +1,21 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
-const title = {
-  border: "1px solid black",
-  width: "150px",
-  textAlign: "center",
-  marginBottom: "20px",
-};
-
-const countStyle = {
-  width: "150px",
-  height: "150px",
-  border: "1px solid black",
-  fontSize: "64px",
-  fontWeight: "bold",
-  textAlign: "center",
-  alignItems: "center",
-};
-
+const TitleStyle = styled.h1`
+  border: 1px solid black;
+  width: 150px;
+  text-align: center;
+  margin-bottom: 20px;
+`;
+const CountStyle = styled.div` 
+  width: 150px;
+  height: 150px;
+  border: 1px solid black;
+  font-size: 64px;
+  font-weight: bold;  
+  text-align: center;
+  align-items: center;
+`;
 const CountBtn = styled.button`
   width: 80px;
   height: 80px;
@@ -56,10 +54,10 @@ const Counter = () => {
 
   return (
     <Layout>
-      <div>
-        <h1 style={title}>Title</h1>
-        <div style={countStyle}>{count}</div>
-      </div>
+      
+        <TitleStyle>Title</TitleStyle>
+        <CountStyle>{count}</CountStyle>
+      
       <BtnGroup>
         <CountBtn onClick={handleDecrease}>-</CountBtn>
         <CountBtn onClick={handleIncrease}>+</CountBtn>
