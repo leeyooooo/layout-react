@@ -5,6 +5,7 @@ import {
   MEDIA_QUERY_LAPTOP,
   MEDIA_QUERY_LG,
 } from "../../constants/breakpoint";
+import { useState } from "react";
 
 const Title = styled.h1`
   font-size: 2.8rem;
@@ -96,23 +97,89 @@ const Button = styled.button`
   }
 `;
 
+let id = 2;
+
 const ToDoList = () => {
-  return (
-    <ToDoWrap>
-      <Title>TODOLIST</Title>
-      <InputGroup>
-        <ToDoInput type="text" placeholder="todo" />
-        <Button>確認</Button>
-      </InputGroup>
-      <ToDoLabel>
-        <ItemCheckBox type="checkbox" name="checkbox" />
-        <ItemContent>寫功課</ItemContent>
+  const [todos, setTodos] = useState([
+    { id: 1, content: "寫功課", isDone: false },
+  ]);
+
+  const [value, setValue] = useState("");
+
+  const handleInputChange = (e) => {
+    setValue(e.target.value);
+  };
+
+  const handleComfirm = (e) => {
+    value &&
+      setTodos([
+        // value 不為空字串才可加入 list
+        {
+          id,
+          content: value,
+          isDone: false,
+        },
+        ...todos,
+      ]);
+    setValue("");
+    id++;
+  };
+
+  const handleDeleteClick = (id) => {
+    setTodos(todos.filter((todo) => todo.id !== id));
+  };
+
+  const handleCheckChange = (id) => {
+    setTodos(
+      todos.map((todo) => {
+        if (todo.id !== id) return todo;
+        return {
+          ...todo,
+          isDone: !todo.isDone,
+        };
+      })
+    );
+  };
+
+  const ToDoItem = ({ todo }) => {
+    return (
+      <ToDoLabel data-todo-id={todo.id}>
+        <ItemCheckBox
+          type="checkbox"
+          name="checkbox"
+          checked={todo.isDone}
+          onChange={() => {
+            handleCheckChange(todo.id);
+          }}
+        />
+        <ItemContent $isDone={todo.isDone}>{todo.content}</ItemContent>
         <ButtonGroup>
-          <Button>
+          <Button
+            onClick={() => {
+              handleDeleteClick(todo.id);
+            }}>
             刪除
           </Button>
         </ButtonGroup>
       </ToDoLabel>
+    );
+  };
+
+  return (
+    <ToDoWrap>
+      <Title>TODOLIST</Title>
+      <InputGroup>
+        <ToDoInput
+          type="text"
+          placeholder="todo"
+          value={value}
+          onChange={handleInputChange}
+        />
+        <Button onClick={handleComfirm}>確認</Button>
+      </InputGroup>
+      {todos.map((todo) => (
+        <ToDoItem key={todo.id} todo={todo} />
+      ))}
     </ToDoWrap>
   );
 };
