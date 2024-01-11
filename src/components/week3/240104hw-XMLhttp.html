@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API串接練習</title>
+</head>
+<style>
+    #app {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    .content {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+        border: 1px solid #c8c8c8;
+        width: 40%;
+        padding: 10px;
+        margin: 10px;
+    }
+    .content_name {
+        font-size: 1rem;
+        /* padding-bottom: 10px; */
+    }
+</style>
+<body>
+    <div id="app"></div>
+
+    <script>
+        const request = new XMLHttpRequest() // 發一個新的 request
+        const app = document.querySelector('#app')
+        request.onload = function() { // request 被載入就執行下面的程式
+            if (request.status >= 200 && request.status < 400) { // 判斷 status code
+                const content = request.responseText
+                const data = JSON.parse(content) // 轉換JSON格式
+                // 列印全部和篩選在於有沒有加上filter
+                const dataFilter = data.filter(data => data.city === '新北市').map(data => {
+                    const tmp = document.createElement('div')
+                    tmp.classList.add('content')
+                    tmp.innerHTML = `
+                        <div class="content_name">
+                            city: ${data.city} <br>
+                            farm_name: ${data.farm_name}<br>
+                            job_name: ${data.job_name}<br>
+                            demand_num: ${data.demand_num}<br>
+                            leave_num: ${data.leave_num}<br>
+                            manager: ${data.manager}<br>
+                            unit_address: ${data.unit_address}<br>
+                            dining_offer: ${data.dining_offer}<br>
+                            dorm_offer: ${data.dorm_offer}<br>
+                            on_work: ${data.on_work}<br>
+                            job_intro: ${data.job_intro}<br>
+                            conditions: ${data.conditions}<br>
+                            address: ${data.address}<br>
+                            workfare: ${data.workfare}<br>
+                            service: ${data.service}
+                        </div>`
+                    app.appendChild(tmp)
+                })
+            } else {
+                console.log('error')
+            }
+        }
+        request.onerror = function() {
+            console.log('error')
+        }
+        //發request使用非同步的方式
+        request.open('GET', 'https://data.moa.gov.tw/Service/OpenData/FarmJobInfo.aspx?IsTransData=1&UnitId=B61', true)
+        request.send()
+    </script>
+</body>
+</html>

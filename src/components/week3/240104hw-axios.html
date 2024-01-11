@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API串接練習(Axios)</title>
+</head>
+<style>
+    #app {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    .content {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+        border: 1px solid #c8c8c8;
+        width: 40%;
+        padding: 10px;
+        margin: 10px;
+    }
+    .content_name {
+        font-size: 1rem;
+    }
+</style>
+<body>
+    <div id="app"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.5/axios.min.js"></script>
+    <script>
+        const app = document.querySelector('#app')
+        axios({
+            method: 'get',
+            url: 'https://data.moa.gov.tw/Service/OpenData/FarmJobInfo.aspx?IsTransData=1&UnitId=B61'
+        })
+        .then(response => {
+            const data = response.data
+            // 列印全部和篩選在於有沒有加上filter
+            const dataFilter = data.filter(data => data.city === '高雄市').map(data => {
+                // 宣告一個節點等等用來放資料
+                const tmp = document.createElement('div')
+                tmp.classList.add('content')
+                tmp.innerHTML = `
+                    <div class="content_name">
+                        city: ${data.city} <br>
+                        farm_name: ${data.farm_name}<br>
+                        job_name: ${data.job_name}<br>
+                        demand_num: ${data.demand_num}<br>
+                        leave_num: ${data.leave_num}<br>
+                        manager: ${data.manager}<br>
+                        unit_address: ${data.unit_address}<br>
+                        dining_offer: ${data.dining_offer}<br>
+                        dorm_offer: ${data.dorm_offer}<br>
+                        on_work: ${data.on_work}<br>
+                        job_intro: ${data.job_intro}<br>
+                        conditions: ${data.conditions}<br>
+                        address: ${data.address}<br>
+                        workfare: ${data.workfare}<br>
+                        service: ${data.service}
+                    </div>`
+                // 把節點推進app裡面
+                app.appendChild(tmp)
+            })
+        })
+        .catch( (error) => console.log(error))
+        
+    </script>
+</body>
+</html>

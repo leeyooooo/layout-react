@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API串接練習(Fetch)</title>
+</head>
+<style>
+    #app {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    .content {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+        border: 1px solid #c8c8c8;
+        width: 40%;
+        padding: 10px;
+        margin: 10px;
+    }
+    .content_name {
+        font-size: 1rem;
+    }
+</style>
+<body>
+    <div id="app"></div>
+
+    <script>
+        const app = document.querySelector('#app')
+        fetch('https://data.moa.gov.tw/Service/OpenData/FarmJobInfo.aspx?IsTransData=1&UnitId=B61', { method:'GET' })
+            .then(res => {
+                return res.json() // 轉換為json格式讓後面的then繼承
+            })
+            .then(res => {
+                // 列印全部和篩選在於有沒有加上filter
+                const resFilter = res.filter(res => res.city === '苗栗縣').map(res => {
+                    const tmp = document.createElement('div')
+                    tmp.classList.add('content')
+                    tmp.innerHTML = `
+                        <div class="content_name">
+                            city: ${res.city} <br>
+                            farm_name: ${res.farm_name}<br>
+                            job_name: ${res.job_name}<br>
+                            demand_num: ${res.demand_num}<br>
+                            leave_num: ${res.leave_num}<br>
+                            manager: ${res.manager}<br>
+                            unit_address: ${res.unit_address}<br>
+                            dining_offer: ${res.dining_offer}<br>
+                            dorm_offer: ${res.dorm_offer}<br>
+                            on_work: ${res.on_work}<br>
+                            job_intro: ${res.job_intro}<br>
+                            conditions: ${res.conditions}<br>
+                            address: ${res.address}<br>
+                            workfare: ${res.workfare}<br>
+                            service: ${res.service}
+                        </div>
+                    `
+                    app.appendChild(tmp)
+                })
+            })
+            .catch((error) => console.log(error))
+    </script>
+</body>
+</html>
