@@ -1,6 +1,12 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { Switch } from 'antd';
 
+const onChange = (checked) => {
+  console.log(`switch to ${checked}`);
+};
+
+const App = () => <Switch defaultChecked onChange={onChange} />;
 const TitleStyle = styled.h1`
   border: 1px solid black;
   width: 150px;
@@ -75,11 +81,12 @@ const Counter = () => {
   return (
     
     <Layout>
-        
+        <App></App>      
         <TitleStyle>Title</TitleStyle>
         <CountStyle>{count}</CountStyle>
       
       <BtnGroup>
+        
         <AcBtn 
           onClick={()=>{
           setCount(0);
@@ -88,6 +95,7 @@ const Counter = () => {
         <CountBtn onClick={handleIncrease}>+</CountBtn>
       </BtnGroup>
     </Layout>
+       
   );
 };
 
