@@ -1,0 +1,289 @@
+<!-- xmlhttprequest()全部資料 -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <h1>hi</h1>
+  </head>
+  <body>
+    <script>
+      function reqListener() {
+        console.log(this.responseText);
+      }
+
+      var oReq = new XMLHttpRequest();
+      oReq.addEventListener("load", reqListener);
+      oReq.open(
+        "GET",
+        "https://data.moa.gov.tw/Service/OpenData/FarmJobInfo.aspx?IsTransData=1&UnitId=B61"
+      );
+      oReq.send();
+    </script>
+  </body>
+</html>
+<!-- xmlhttprequest()特定資料 -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <h1>hi</h1>
+  </head>
+  <body>
+    <script>
+      function reqListener() {
+        //console.log(this.responseText);
+        var responseData = JSON.parse(oReq.responseText);
+        var filterData = responseData.filter(function (item) {
+          return item.city == "臺中市";
+        });
+        // console.log(responseData.city =="台中市");
+        console.log(oReq.status);
+        console.log(filterData);
+      }
+
+      var oReq = new XMLHttpRequest();
+      oReq.addEventListener("load", reqListener);
+      oReq.open(
+        "GET",
+        "https://data.moa.gov.tw/Service/OpenData/FarmJobInfo.aspx?IsTransData=1&UnitId=B61"
+      );
+      oReq.send();
+    </script>
+  </body>
+</html>
+<!-- xmlhttprequest()特定資料 li ul 簡單的顯示在網頁 不只是在console -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <h1>hi</h1>
+    <div class="output"></div>
+  </head>
+  <body>
+    <script>
+      function reqListener() {
+        //console.log(this.responseText);
+        var responseData = JSON.parse(oReq.responseText);
+        var filterData = responseData.filter(function (item) {
+          return item.city == "臺中市";
+        });
+
+        console.log(filterData); //他是一個array
+
+        const container = document.querySelector(".output");
+        for (let i = 0; i < filterData.length; i++) {
+          const div = document.createElement("div");
+          div.classList.add("profile");
+          div.innerHTML = `
+          <p>臺中市的第${i}個: ${filterData[i].farm_name}</p>
+          <p>臺中市的第${i}個: ${filterData[i].address}</p>
+          
+        `;
+          container.appendChild(div);
+        }
+      }
+
+      var oReq = new XMLHttpRequest();
+      oReq.addEventListener("load", reqListener);
+      oReq.open(
+        "GET",
+        "https://data.moa.gov.tw/Service/OpenData/FarmJobInfo.aspx?IsTransData=1&UnitId=B61"
+      );
+      oReq.send();
+    </script>
+  </body>
+</html>
+<!-- Fetch()全部資料 -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <h1>hi</h1>
+  </head>
+  <body>
+    <script>
+      fetch(
+        "https://data.moa.gov.tw/Service/OpenData/FarmJobInfo.aspx?IsTransData=1&UnitId=B61"
+      )
+        .then(function (response) {
+          return response.json();
+        })
+        .then(function (myJson) {
+          console.log(myJson);
+        });
+    </script>
+  </body>
+</html>
+<!-- Fetch()特定資料 -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <h1>hi</h1>
+  </head>
+  <body>
+    <script>
+      fetch(
+        "https://data.moa.gov.tw/Service/OpenData/FarmJobInfo.aspx?IsTransData=1&UnitId=B61"
+      )
+        .then(function (response) {
+          return response.json();
+        })
+        .then(function (myJson) {
+          const specificCity = myJson.filter(
+            (cityname) => cityname.city === "臺中市"
+          );
+          console.log(specificCity);
+        });
+    </script>
+  </body>
+</html>
+<!-- Fetch()特定資料 li ul 簡單的顯示在網頁 不只是在console) -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <h1>hi</h1>
+    <div class="output"></div>
+  </head>
+  <body>
+    <script>
+      fetch(
+        "https://data.moa.gov.tw/Service/OpenData/FarmJobInfo.aspx?IsTransData=1&UnitId=B61"
+      )
+        .then(function (response) {
+          return response.json();
+        })
+        .then(function (myJson) {
+          const specificCity = myJson.filter(
+            (cityname) => cityname.city === "臺中市"
+          );
+          console.log(specificCity);
+          const container = document.querySelector(".output");
+          for (let i = 0; i < specificCity.length; i++) {
+            const div = document.createElement("div");
+            div.classList.add("profile");
+            div.innerHTML = `
+          <p>臺中市的第${i}個: ${specificCity[i].farm_name}</p>
+          <p>臺中市的第${i}個: ${specificCity[i].address}</p>
+          
+        `;
+            container.appendChild(div);
+          }
+        });
+    </script>
+  </body>
+</html>
+<!-- Axios()全部資料-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <h1>hi</h1>
+    <!-- 要這樣引入axios -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  </head>
+  <body>
+    <script>
+      axios;
+      axios
+        .get(
+          "https://data.moa.gov.tw/Service/OpenData/FarmJobInfo.aspx?IsTransData=1&UnitId=B61"
+        )
+        .then((response) => console.log(response));
+    </script>
+  </body>
+</html>
+<!-- Axios()特定資料 -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <h1>hi</h1>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  </head>
+  <body>
+    <script>
+      axios
+        .get(
+          "https://data.moa.gov.tw/Service/OpenData/FarmJobInfo.aspx?IsTransData=1&UnitId=B61"
+        )
+        .then((response) => {
+          console.log(response);
+          const allData = response.data; //為啥一定要這樣?
+          const specificCity = allData.filter(
+            (cityname) => cityname.city === "臺中市"
+          );
+          console.log(specificCity);
+        });
+      /*.then(function(myJson){//都是promise 因為fetch 跟 axios不一樣 所以不行嗎?
+          const specificCity = myJson.filter(cityname => cityname.city==="臺中市")
+          console.log(specificCity)
+        })
+        */
+    </script>
+  </body>
+</html>
+<!-- Axios()特定資料 li ul 簡單的顯示在網頁 不只是在console) -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <h1>hi</h1>
+    <div class="output"></div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  </head>
+  <body>
+    <script>
+      axios
+        .get(
+          "https://data.moa.gov.tw/Service/OpenData/FarmJobInfo.aspx?IsTransData=1&UnitId=B61"
+        )
+        .then((response) => {
+          console.log(response);
+          const allData = response.data; //為啥一定要這樣?
+          const specificCity = allData.filter(
+            (cityname) => cityname.city === "臺中市"
+          );
+          console.log(specificCity);
+          const container = document.querySelector(".output");
+          for (let i = 0; i < specificCity.length; i++) {
+            const div = document.createElement("div");
+            div.classList.add("profile");
+            div.innerHTML = `
+          <p>臺中市的第${i}個: ${specificCity[i].farm_name}</p>
+          <p>臺中市的第${i}個: ${specificCity[i].address}</p>
+          
+        `;
+            container.appendChild(div);
+          }
+        });
+    </script>
+  </body>
+</html>
+<!-- 如何用react實作以上? -->
+<!-- 我查到的是要用上週有帶到的useEffect跟useState一起用  -->
+<!-- 使用了 React Hooks 中的 useState 來管理狀態，並使用 useEffect 來處理資料的取得。 -->
+<!-- 當 component mount 時，useEffect 會觸發，發送 API 請求，然後更新狀態。 -->
+<!-- 但我看我查到的例子還有點不太懂就是了哈哈 -->
+
+<!-- 以影片進度來說 我複習了FE102的ajax跟same origin policy -->
+<!-- 這禮拜開始應該會想把FE210的那個twitch api做完看看 然後把這周剛剛給的react文件跟how to get the children’s props or component? 這個問題給結束 -->
