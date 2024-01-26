@@ -13,6 +13,7 @@ const CardWrapper = styled.div`
 const CardTitle = styled.h2`
   font-size: 20px;
   margin-bottom: 8px;
+  color:#555;
 `;
 
 const CardImage = styled.img`
