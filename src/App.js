@@ -1,12 +1,13 @@
 
 import React from 'react';
-import ApiUtil from './components/week3/ApiTest';
+// import ApiUtil from './components/week3/ApiTest';
+import MessageBoard from './components/MessageBoard';
 
 function App() {
 
   return (
     <div className="App">
-      <ApiUtil></ApiUtil>
+      <MessageBoard></MessageBoard>
     </div>
   );
 }
