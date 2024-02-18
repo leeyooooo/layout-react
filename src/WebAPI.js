@@ -37,6 +37,7 @@ export const AddPost = (title, content) => {
     return fetch(`${BASE_URL}/posts`, {
         method: "POST",
         headers: {
+            'content-type': 'application/json',
             'authorization': `Bearer ${token}`
         },
         body: JSON.stringify({
