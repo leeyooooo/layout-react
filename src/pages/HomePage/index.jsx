@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { getPosts } from "../../WebAPI";
 import PropTypes from 'prop-types'
 import { Link } from "react-router-dom";
-import { PostContext } from "../../contexts";
+// import { PostContext } from "../../contexts";
 
 const Root = styled.div``;
 
@@ -27,15 +27,13 @@ const PostDate = styled.div``
 
 
 function Post({post}) {
-  const [currentPost, setCurrentPost] = useState('')
   const {id, title, createdAt} = post
+
   return (
-    <PostContext.Provider value={currentPost}>
-      <PostContainer>
-          <PostTitle to={`/posts/${id}`} onClick={() => setCurrentPost(id)}>{title}</PostTitle>
-          <PostDate>{new Date(createdAt).toLocaleString()}</PostDate>
-      </PostContainer>
-    </PostContext.Provider>
+    <PostContainer>
+        <PostTitle to={`/posts/${id}`}>{title}</PostTitle>
+        <PostDate>{new Date(createdAt).toLocaleString()}</PostDate>
+    </PostContainer>
   )
 }
 Post.protoType = {
@@ -48,7 +46,6 @@ export default function HomePage() {
   useEffect(() => {
     getPosts().then((post) => setPosts(post));
   }, []);
-  
   return (
     <Root>
       {posts.map((post) => (

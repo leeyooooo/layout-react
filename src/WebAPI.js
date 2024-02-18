@@ -31,3 +31,22 @@ export const getMe = () => {
     })
     .then(res => res.json())
 }
+
+export const AddPost = (title, content) => {
+    const token = getAuthToken()
+    return fetch(`${BASE_URL}/posts`, {
+        method: "POST",
+        headers: {
+            'authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+            title: title,
+            body: content
+        }),
+    }).then((res) => res.json())
+      .then((data) => {
+        console.log(data)
+        getPosts()
+    })
+      .catch((err) => console.log(err))
+} 
