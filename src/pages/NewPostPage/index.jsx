@@ -25,47 +25,69 @@ const NewPostForm = styled.form`
   }
 `;
 const FormInput = styled.div`
-  width: 250px;
+  width: 270px;
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   font-size: 1.2rem;
   margin: 5px 0;
 `;
+const ButtonGroup = styled.div`
+  width: 270px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  button {
+    margin: 30px 0px 0 5px;
+  }
+`
 
 export default function NewPostPage() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
+  const handleInputClear = (e) => {
+    e.preventDefault();
+    setTitle('')
+    setContent('')
+  }
   const handlePostAdd = (e) => {
     e.preventDefault();
-    if(!title || !content) {
-        return
-    }
     AddPost(title, content)
+    setTitle('')
+    setContent('')
+    alert('新增成功!')
   }
 
   return (
     <NewPostForm>
       <h1>新增文章</h1>  
       <FormInput>
-        Title:
+        Title
         <input
           value={title}
           onChange={(e) => setTitle(e.target.value)}
+          placeholder="請輸入標題"
           type="textarea"
         />
       </FormInput>
       <FormInput>
-        Content:
-        <input
+        Content
+        <textarea
           value={content}
           onChange={(e) => setContent(e.target.value)}
-          type="textarea"
-        />
+          placeholder="請輸入文章內容"
+          rows="5"
+          cols="21"
+        ></textarea>
       </FormInput>
-      <button onClick={handlePostAdd}>送出</button>
+      <ButtonGroup>
+        {(title || content) ? <button onClick={handleInputClear}>清空</button> : null}
+        {(title && content) ? <button onClick={handlePostAdd}>發布</button> : null}
+      </ButtonGroup>
+      
     </NewPostForm>
   );
 }
