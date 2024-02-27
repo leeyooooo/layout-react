@@ -30,7 +30,7 @@ function App() {
             <Route exact path="/" element={<HomePage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/new-post" element={<NewPostPage />} />
-            <Route path="/posts/:userId" element={<PostsPage />} />
+            <Route path="/posts/:postId" element={<PostsPage />} />
           </Routes>
         </Router>
       </Root>

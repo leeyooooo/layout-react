@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from "react";
 import { getPosts } from "../../WebAPI";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { DeletePost } from "../../WebAPI"
 
 const PostContainer = styled.div`
     width: 80%;
@@ -18,33 +19,59 @@ const PostTitle = styled.div`
         color: #555;
     }
 `
+const DeleteBtn = styled.button`
+    background: transparent;
+    border: 1px solid #000;
+    border-radius: 10px;
+    padding: 5px 10px;
+    margin: 5px;
+    &:hover {
+        cursor: pointer;
+        background: #ddd;
+    }
+`
 
 const Post = ({ post }) => {
     const {title, body, createdAt} = post
     return (
-        <PostContainer>
+        <>
             <PostTitle>
                 <h1>{title}</h1>
                 <p>{new Date(createdAt).toLocaleString()}</p>
             </PostTitle>
             <p>{body}</p>
-        </PostContainer>
+        </>
     )
 }
 
 export default function PostsPage() {
     const [posts, setPosts] = useState([])
-    const { userId } = useParams();
+    const { postId } = useParams();
+    const navigate = useNavigate();
+
+    const handlePostDelete = () => {
+        DeletePost(postId)
+        alert('刪除成功!')
+        navigate("/");
+    }
+
     useEffect(() => {
         getPosts().then((post) => {
             post && setPosts(post)
         });
       }, []);
-    const currentPost = posts && posts.filter(current => current.id === parseInt(userId))
+
+    const currentPost = posts && posts.filter(current => current.id === parseInt(postId))
+    
   return (
     currentPost.map(current => {
         return (
-            <Post key={current.id} post={current} />
+            <>
+                <PostContainer>
+                    <Post key={current.id} post={current} />
+                    <DeleteBtn onClick={handlePostDelete}>刪除文章</DeleteBtn>
+                </PostContainer>
+            </>
         )
     })
   );

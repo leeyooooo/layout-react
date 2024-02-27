@@ -2,6 +2,7 @@ import styled from "styled-components";
 import React, { useState } from "react";
 import { AddPost } from "../../WebAPI"
 
+
 const NewPostForm = styled.form`
   width: 500px;
   margin: 50px auto;
@@ -47,6 +48,7 @@ const ButtonGroup = styled.div`
 export default function NewPostPage() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+
 
   const handleInputClear = (e) => {
     e.preventDefault();

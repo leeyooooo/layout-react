@@ -51,3 +51,15 @@ export const AddPost = (title, content) => {
     })
       .catch((err) => console.log(err))
 } 
+
+export const DeletePost = (postId) => {
+    const token = getAuthToken()
+    return fetch(`${BASE_URL}/posts/${postId}`, {
+        method: "DELETE",
+        headers: {
+            'content-type': 'application/json',
+            'authorization': `Bearer ${token}`
+        },
+    }).then((res) => res.json())
+      .catch((err) => console.log(err))
+} 
