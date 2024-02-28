@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import React, { useState } from "react";
-import { AddPost } from "../../WebAPI"
-
+import { AddPost } from "../../WebAPI";
 
 const NewPostForm = styled.form`
   width: 500px;
@@ -43,29 +42,28 @@ const ButtonGroup = styled.div`
   button {
     margin: 30px 0px 0 5px;
   }
-`
+`;
 
 export default function NewPostPage() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
-
   const handleInputClear = (e) => {
     e.preventDefault();
-    setTitle('')
-    setContent('')
-  }
+    setTitle("");
+    setContent("");
+  };
   const handlePostAdd = (e) => {
     e.preventDefault();
-    AddPost(title, content)
-    setTitle('')
-    setContent('')
-    alert('新增成功!')
-  }
+    AddPost(title, content);
+    setTitle("");
+    setContent("");
+    alert("新增成功!");
+  };
 
   return (
     <NewPostForm>
-      <h1>新增文章</h1>  
+      <h1>新增文章</h1>
       <FormInput>
         Title
         <input
@@ -86,10 +84,13 @@ export default function NewPostPage() {
         ></textarea>
       </FormInput>
       <ButtonGroup>
-        {(title || content) ? <button onClick={handleInputClear}>清空</button> : null}
-        {(title && content) ? <button onClick={handlePostAdd}>發布</button> : null}
+        {title || content ? (
+          <button onClick={handleInputClear}>清空</button>
+        ) : null}
+        {title && content ? (
+          <button onClick={handlePostAdd}>發布</button>
+        ) : null}
       </ButtonGroup>
-      
     </NewPostForm>
   );
 }
